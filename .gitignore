@@ -1,0 +1,3 @@
+*.pyc
+__pycache__/
+进程快照.txt
