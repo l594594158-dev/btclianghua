@@ -1,5 +1,5 @@
 # Gate.io 永续合约 HFT Bot 配置
-TP = 0.003           # 0.3%
+TP = 0.0032         # 0.32%
 SL = 0.001           # 0.1%
 THRESHOLD = 0.5      # 信号阈值
 AMOUNT = 20          # 开仓量（张数，Gate永续 contractSize=0.0001 BTC/张，20张=0.002 BTC）
