@@ -1,22 +1,17 @@
 """信号引擎 - 完全复刻回测 final_monthly.py 算法"""
 import numpy as np
 
-def wilder_rsi_ema(closes, period):
+def sma_rsi(closes, period):
     """
-    Wilder EMA RSI - 完全复刻回测的 pd.Series.ewm(alpha=1/p, adjust=False)
-    传入全部缓存数据以保证EMA充分收敛
+    SMA RSI - 用简单移动平均计算RSI，与回测一致
     """
     if len(closes) < period + 1:
         return np.nan
-    diffs = np.diff(closes)
+    diffs = np.diff(closes[-period-1:])
     gains = np.maximum(diffs, 0)
     losses = -np.minimum(diffs, 0)
-    # Wilder EMA
-    avg_gain = gains[0]
-    avg_loss = losses[0]
-    for g, l in zip(gains[1:], losses[1:]):
-        avg_gain = (avg_gain * (period - 1) + g) / period
-        avg_loss = (avg_loss * (period - 1) + l) / period
+    avg_gain = float(np.mean(gains))
+    avg_loss = float(np.mean(losses))
     if avg_loss == 0:
         return 100.0
     rs = avg_gain / avg_loss
@@ -37,10 +32,10 @@ def calculate_signals(bars):
     lows = np.array([b[3] for b in bars], dtype=float)
     current = closes[-1]
     
-    # ---- RSI (Wilder EMA) ----
-    r5_val = wilder_rsi_ema(closes, 5) if len(closes) >= 6 else 50
-    r7_val = wilder_rsi_ema(closes, 7) if len(closes) >= 8 else 50
-    r14_val = wilder_rsi_ema(closes, 14) if len(closes) >= 15 else 50
+    # ---- RSI (SMA - 与回测一致) ----
+    r5_val = sma_rsi(closes, 5) if len(closes) >= 6 else 50
+    r7_val = sma_rsi(closes, 7) if len(closes) >= 8 else 50
+    r14_val = sma_rsi(closes, 14) if len(closes) >= 15 else 50
     
     # ---- 布林带 (SMA 20, ddof=0) ----
     sma20 = float(np.mean(closes[-20:]))
