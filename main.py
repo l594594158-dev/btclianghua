@@ -115,13 +115,9 @@ def task1_signal():
     if direction == 'long':
         if l <= trig:
             filled = True; entry_price = trig
-        elif l <= o:
-            filled = True; entry_price = o
     else:
         if h >= trig:
             filled = True; entry_price = trig
-        elif h >= o:
-            filled = True; entry_price = o
     
     if not filled:
         d = result['detail']
