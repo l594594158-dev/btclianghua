@@ -354,7 +354,7 @@ def main():
     
     print("=" * 55)
     print(f"Gate.io HFT Bot - {datetime.now()}")
-    print(f"参数: TP={TP*100:.1f}% SL={SL*100:.1f}% TH={THRESHOLD}")
+    print(f"参数: TP={TP*100:.2f}% SL={SL*100:.2f}% TH={THRESHOLD}")
     print(f"限价滑点: {TRIGGER*100:.2f}%")
     print("=" * 55)
     
